@@ -1,11 +1,10 @@
-
 import "dotenv/config";
 import express from "express";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { registerOAuthRoutes } from "../server/_core/oauth";
-import { publicPlatformScript } from "../server/_core/publicConfig";
-import { appRouter } from "../server/routers";
-import { createContext } from "../server/_core/context";
+import { registerOAuthRoutes } from "../server/_core/oauth.js";
+import { publicPlatformScript } from "../server/_core/publicConfig.js";
+import { appRouter } from "../server/routers/index.js";
+import { createContext } from "../server/_core/context.js";
 
 const app = express();
 
