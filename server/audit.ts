@@ -884,6 +884,37 @@ export async function runWebsiteAudit(rawUrl: string): Promise<AuditReport> {
     robotsStatus === "pass" ? `robots.txt returned HTTP ${robots.result?.status}${disallowsAll ? " and appears to block all crawlers" : ""}.` : "robots.txt was missing or could not be read at the site's root.",
     disallowsAll ? "Review the rule that blocks all crawlers and allow access to public pages intended for search." : "Publish a valid robots.txt file to make crawl guidance explicit.", baseUrl));
   if (disallowsAll) globalChecks[globalChecks.length - 1] = { ...globalChecks[globalChecks.length - 1], status: "fail", severity: "high" };
+    if (robotsStatus === "pass" && robotsText.trim()) {
+    const robotsIssues = robotsText
+      .split(/\r?\n/)
+      .map((line) => line.split("#")[0].trim())
+      .filter(Boolean)
+      .filter((line) => {
+        if (!line.includes(":")) return true;
+
+        const [directive, ...value] = line.split(":");
+        const name = directive.trim().toLowerCase();
+        const content = value.join(":").trim();
+
+        if (name === "user-agent") return !content;
+       if (["allow", "disallow", "sitemap", "crawl-delay", "host"].includes(name)) return false;
+
+return true;
+      });
+
+    globalChecks.push(check(
+      "robots-syntax",
+      "robots.txt basic syntax",
+      "Technical SEO",
+      robotsIssues.length ? "warning" : "pass",
+      "low",
+      robotsIssues.length
+        ? `Found ${robotsIssues.length} line(s) that may have invalid syntax.`
+        : "No obvious robots.txt syntax errors were found.",
+      "Review robots.txt lines that are missing a colon or have an empty User-agent value.",
+      baseUrl
+    ));
+  }
 
   const sitemapValid = Boolean(sitemap.result && sitemap.result.status >= 200 && sitemap.result.status < 400 && /<(?:urlset|sitemapindex)\b/i.test(sitemap.result.body));
   globalChecks.push(check("sitemap", "XML sitemap", "Technical SEO", sitemapValid ? "pass" : "warning", "medium",
