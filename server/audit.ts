@@ -331,6 +331,7 @@ function getCanonicalLinks(html: string): string[] {
     const rel = (attribute(tag, "rel") ?? "").toLowerCase().split(/\s+/);
     return rel.includes("canonical") ? [attribute(tag, "href") ?? ""] : [];
   });
+  }
 function getAnchors(html: string, baseUrl: string): string[] {
   const tags = html.match(/<a\b[^>]*>/gi) ?? [];
   const found: string[] = [];
