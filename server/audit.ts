@@ -331,21 +331,49 @@ function getCanonicalLinks(html: string): string[] {
     const rel = (attribute(tag, "rel") ?? "").toLowerCase().split(/\s+/);
     return rel.includes("canonical") ? [attribute(tag, "href") ?? ""] : [];
   });
-}
-
 function getAnchors(html: string, baseUrl: string): string[] {
   const tags = html.match(/<a\b[^>]*>/gi) ?? [];
   const found: string[] = [];
+
   for (const tag of tags) {
-    const href = attribute(tag, "href");
-    if (!href || /^(?:#|mailto:|tel:|javascript:|data:)/i.test(href)) continue;
+    let href = attribute(tag, "href")?.trim();
+
+    if (!href) continue;
+
+    // Remove accidental quotation marks around URLs
+    const hasOuterQuotes =
+      (href.startsWith('"') && href.endsWith('"')) ||
+      (href.startsWith("'") && href.endsWith("'"));
+
+    if (hasOuterQuotes) {
+      href = href.slice(1, -1).trim();
+
+      // Repair malformed absolute URLs
+      href = href.replace(/^(https?:)\/{3,}/i, "$1//");
+      href = href.replace(
+        /^(https?:\/\/[^/]+)\/{2,}/i,
+        "$1/"
+      );
+    }
+
+    if (!href || /^(?:#|mailto:|tel:|javascript:|data:)/i.test(href)) {
+      continue;
+    }
+
     try {
       const target = new URL(href, baseUrl);
-      if (target.protocol !== "http:" && target.protocol !== "https:") continue;
+
+      if (target.protocol !== "http:" && target.protocol !== "https:") {
+        continue;
+      }
+
       target.hash = "";
       found.push(target.href);
-    } catch { /* ignore malformed links */ }
+    } catch {
+      // Ignore malformed links
+    }
   }
+
   return [...new Set(found)];
 }
 
