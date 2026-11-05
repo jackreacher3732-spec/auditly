@@ -677,3 +677,51 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .report-page .finding-card:focus-within {
   border-color: #ed6c3d;
 }
+
+
+/* Auditly Premium Findings — compact white/orange insight cards */
+.report-page .findings-list { gap: 10px; }
+.report-page .finding-card { position: relative; border: 1px solid #e7e9e4; border-radius: 15px; background: #fff; box-shadow: 0 3px 14px rgba(31,43,43,.035); transition: border-color .2s, box-shadow .2s, transform .2s; }
+.report-page .finding-card:hover { border-color: #f0c4b1; box-shadow: 0 9px 28px rgba(57,45,35,.075); }
+.report-page .finding-open { border-color: #ed6c3d; box-shadow: 0 12px 34px rgba(237,108,61,.085); }
+.report-page .finding-summary { min-height: 75px; padding: 15px 20px; gap: 15px; }
+.report-page .finding-state-icon { width: 40px; height: 40px; flex-basis: 40px; }
+.report-page .finding-main strong { color: #24312e; font-size: 15px; }
+.report-page .finding-main small { color: #84918a; font-size: 11px; }
+.report-page .finding-chevron { color: #89958e; }
+.report-page .finding-details-premium { display: block; padding: 18px 20px 20px; border-top: 1px solid #f0eee9; background: linear-gradient(180deg,#fffdfb 0%,#fff 65%); }
+.report-page .finding-detail-topline { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+.report-page .finding-detail-kicker { color: #d9572b; font-size: 10px; font-weight: 800; letter-spacing: .13em; }
+.report-page .finding-detail-count { color: #8b958e; font-size: 11px; }
+.report-page .finding-insight-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.report-page .finding-insight-panel { display: flex; align-items: flex-start; gap: 12px; min-width: 0; padding: 17px; border: 1px solid #eeeae4; border-radius: 12px; background: #fff; }
+.report-page .finding-insight-action { border-color: #f4ddce; background: #fff7f2; }
+.report-page .finding-insight-icon { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 9px; background: #f6f4ef; color: #69756e; }
+.report-page .finding-insight-action .finding-insight-icon { background: #ffe8dc; color: #d9572b; }
+.report-page .finding-insight-panel > div { min-width: 0; }
+.report-page .finding-insight-panel .finding-detail-label { color: #7d8982; font-size: 10px; letter-spacing: .1em; }
+.report-page .finding-insight-action .finding-detail-label { color: #c35c36; }
+.report-page .finding-insight-panel p { margin: 8px 0 0; color: #45554d; font-size: 12px; line-height: 1.65; overflow-wrap: anywhere; }
+.report-page .finding-insight-panel .finding-evidence { margin-top: 7px; font-size: 11px; }
+.report-page .finding-url-panel { margin-top: 12px; padding: 15px 16px; border: 1px solid #eeeae4; border-radius: 12px; background: #fff; }
+.report-page .finding-url-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.report-page .finding-url-heading .finding-detail-label { color: #68776e; }
+.report-page .finding-url-count { display: inline-grid; place-items: center; min-width: 22px; height: 20px; padding: 0 5px; border-radius: 7px; background: #fff0e9; color: #d9572b; font-size: 10px; letter-spacing: 0; }
+.report-page .finding-url-hint { display: inline-flex; align-items: center; gap: 5px; color: #9ba49d; font-size: 10px; white-space: nowrap; }
+.report-page .finding-url-panel .affected-url-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; margin-top: 11px; max-height: 172px; overflow-y: auto; scrollbar-color: #e8b39e transparent; }
+.report-page .finding-url-panel .affected-url-list a { min-width: 0; padding: 9px 10px; border: 1px solid #f1eee9; border-radius: 8px; background: #fcfcfa; color: #c85c35; font-size: 11px; transition: background .2s, border-color .2s; }
+.report-page .finding-url-panel .affected-url-list a:hover { background: #fff3ed; border-color: #f0c5b3; }
+.report-page .finding-url-panel .affected-url-list a span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.report-page .finding-url-panel .affected-url-list a svg { margin-left: auto; }
+.report-page .finding-url-panel .affected-urls-toggle { margin-top: 10px; color: #d9572b; }
+@media(max-width:700px) {
+ .report-page .finding-details-premium { padding: 14px; }
+ .report-page .finding-insight-grid { grid-template-columns: 1fr; gap: 9px; }
+ .report-page .finding-insight-panel { padding: 13px; }
+ .report-page .finding-url-panel { padding: 13px; }
+ .report-page .finding-url-panel .affected-url-list { grid-template-columns: 1fr; }
+ .report-page .finding-summary { padding: 13px; gap: 10px; }
+ .report-page .finding-main strong { font-size: 13px; }
+ .report-page .finding-url-hint { display: none; }
+}
+@media print { .report-page .finding-details-premium { background: #fff; } .report-page .finding-url-panel .affected-url-list { max-height: none; overflow: visible; } }
