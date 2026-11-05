@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowDownToLine,
   ArrowLeft,
@@ -26,6 +26,7 @@ import {
   ChevronDown,
   Copy,
   XCircle,
+  X,
 } from "lucide-react";
 import { Link } from "wouter";
 import Brand from "@/components/Brand";
@@ -195,6 +196,20 @@ export default function AuditReport() {
   const [selectedPageUrl, setSelectedPageUrl] = useState<string | null>(null);
   const audit = trpc.audit.run.useMutation();
 
+  useEffect(() => {
+    if (!selectedPageUrl) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedPageUrl(null);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [selectedPageUrl]);
+
   const checks = useMemo(() => {
     if (!report) return [];
     return report.checks.filter(item => {
@@ -282,14 +297,25 @@ export default function AuditReport() {
         <section className="crawl-section">
           <div className="section-row-heading"><div><span className="section-kicker">CRAWL SUMMARY</span><h2>Pages in this checkup</h2></div><span className="crawl-count"><FileSearch size={14} /> {report.crawl.internalLinksFound} internal links found</span></div>
           <div className="crawl-insights"><div><strong>{report.crawl.maxDepth}</strong><span>max crawl depth</span></div><div><strong>{report.crawl.orphanPages}</strong><span>orphan pages</span></div><div><strong>{report.crawl.duplicateTitleGroups}</strong><span>duplicate title groups</span></div><div><strong>{report.crawl.duplicateMetaGroups}</strong><span>duplicate meta groups</span></div><div><strong>{report.crawl.sitemapOnlyUrls}</strong><span>sitemap URLs not crawled</span></div><div><strong>{report.crawl.crawledNotInSitemap}</strong><span>crawled pages not in sitemap</span></div></div>
-          <div className="pages-table-wrap"><table className="pages-table"><thead><tr><th>Page</th><th>HTTP</th><th>Score</th><th>Findings</th><th>Depth</th><th>Inbound</th><th>Response</th><th>Details</th></tr></thead><tbody>{report.pages.map(page => <tr key={page.url}><td><a href={page.url} target="_blank" rel="noreferrer" className="page-title-link"><span>{page.title}</span><small>{page.url}</small></a></td><td><span className={`http-pill ${page.statusCode < 400 ? "http-ok" : "http-bad"}`}>{page.statusCode}</span></td><td><strong style={{ color: scoreColor(page.score) }}>{page.score}</strong></td><td>{page.issues} issue{page.issues === 1 ? "" : "s"}{page.orphan ? <span className="orphan-pill">orphan</span> : null}</td><td>{page.crawlDepth}</td><td>{page.inboundInternalLinks}</td><td>{page.loadMs.toLocaleString()} ms</td><td><button className="page-details-button" onClick={() => setSelectedPageUrl(selectedPageUrl === page.url ? null : page.url)}>{selectedPageUrl === page.url ? "Hide" : "View checks"}</button></td></tr>)}</tbody></table></div>
-          {selectedPage && <PageAuditDetails page={selectedPage} />}
+          <div className="pages-table-wrap"><table className="pages-table"><thead><tr><th>Page</th><th>HTTP</th><th>Score</th><th>Findings</th><th>Depth</th><th>Inbound</th><th>Response</th><th>Details</th></tr></thead><tbody>{report.pages.map(page => <tr key={page.url}><td><a href={page.url} target="_blank" rel="noreferrer" className="page-title-link"><span>{page.title}</span><small>{page.url}</small></a></td><td><span className={`http-pill ${page.statusCode < 400 ? "http-ok" : "http-bad"}`}>{page.statusCode}</span></td><td><strong style={{ color: scoreColor(page.score) }}>{page.score}</strong></td><td>{page.issues} issue{page.issues === 1 ? "" : "s"}{page.orphan ? <span className="orphan-pill">orphan</span> : null}</td><td>{page.crawlDepth}</td><td>{page.inboundInternalLinks}</td><td>{page.loadMs.toLocaleString()} ms</td><td><button className="page-details-button" onClick={() => setSelectedPageUrl(page.url)} aria-label={`View checks for ${page.title}`}>View checks</button></td></tr>)}</tbody></table></div>
           <div className={`crawl-coverage ${report.crawl.complete ? "coverage-complete" : "coverage-capped"}`}><Info size={14} /><span>{report.crawl.complete ? `Complete discoverable crawl finished: ${report.summary.pagesScanned} pages were scanned.` : `The crawl reached its safety ceiling after ${report.summary.pagesScanned} pages; ${report.crawl.pagesSkipped} discovered URL${report.crawl.pagesSkipped === 1 ? " was" : "s were"} not scanned.`} {report.crawl.blockedByRobots ? `${report.crawl.blockedByRobots} URL${report.crawl.blockedByRobots === 1 ? " was" : "s were"} blocked by robots.txt.` : ""} {report.metrics.coreWebVitals.note}</span></div>
           <div className="export-note print-hide"><span><CheckCircle2 size={16} /> Want a shareable copy?</span><button onClick={() => window.print()}>Print or save as PDF <ArrowUpRight size={14} /></button></div>
         </section>
 
         <footer className="report-footer print-hide"><Brand /><span>Auditly reports what this scan could observe at the time it ran.</span><Link href="/">Run another website checkup <ArrowUpRight size={13} /></Link></footer>
       </main>
+      {selectedPage && <div className="audit-drawer-root print-hide">
+        <button type="button" className="audit-drawer-backdrop" onClick={() => setSelectedPageUrl(null)} aria-label="Close page checks" />
+        <aside className="audit-drawer" role="dialog" aria-modal="true" aria-label={`Checks for ${selectedPage.title}`}>
+          <div className="audit-drawer-topbar">
+            <div className="audit-drawer-brand"><span className="audit-drawer-brand-dot" /> PAGE AUDIT <span className="audit-drawer-count">{selectedPage.checks.length} checks</span></div>
+            <button type="button" className="audit-drawer-close" onClick={() => setSelectedPageUrl(null)} aria-label="Close details"><X size={19} /></button>
+          </div>
+          <div className="audit-drawer-scroll" key={selectedPage.url}>
+            <PageAuditDetails page={selectedPage} />
+          </div>
+        </aside>
+      </div>}
     </div>
   );
 }
