@@ -634,3 +634,46 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 @media(max-width:950px){.report-page .overview-grid {grid-template-columns:1fr}.report-page .device-speed-grid {grid-template-columns:1fr}}
 @media(max-width:700px){.report-page .report-container,.report-page .report-header-inner {width:calc(100% - 32px)}.report-page .report-title-row h1 {font-size:32px}.report-page .score-panel {padding:22px}.report-page .issue-panel {padding:22px}.report-page .category-grid {grid-template-columns:repeat(2,minmax(0,1fr))}.report-page .category-card {padding:15px}.report-page .finding-summary {padding:14px;gap:10px;min-height:70px}.report-page .finding-main strong {font-size:13px}.report-page .finding-details {padding:18px;grid-template-columns:1fr}.report-page .finding-priority {font-size:10px;padding:5px 8px}.report-page .finding-toolbar select {max-width:none}.report-page .section-row-heading h2 {font-size:21px}.report-page .crawl-insights {grid-template-columns:repeat(2,minmax(0,1fr))}.report-page .device-metric-grid {grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media print {.report-page {background:#fff!important}.report-page .finding-card,.report-page .score-panel,.report-page .issue-panel,.report-page .category-card {box-shadow:none!important}.report-page .finding-details {background:#fff}.report-page .finding-summary {min-height:48px}}
+
+/* Auditly — Original White & Orange Branding */
+.report-page {
+  background: #fbfcfa;
+}
+
+.report-title-row h1 span {
+  color: #ed6c3d;
+}
+
+.report-domain a,
+.report-breadcrumb a:hover {
+  color: #d9572b;
+}
+
+.report-page .primary-button {
+  background: #ed6c3d;
+  color: #ffffff;
+}
+
+.report-page .primary-button:hover {
+  background: #d9572b;
+}
+
+.report-page .filter-tabs button.active {
+  background: #fff0e9;
+  color: #d9572b;
+}
+
+.report-page .filter-tabs button.active span {
+  color: #d9572b;
+}
+
+.report-page .text-button,
+.report-page .page-details-button,
+.report-page .affected-url-list a,
+.report-page .affected-urls-toggle {
+  color: #d9572b;
+}
+
+.report-page .finding-card:focus-within {
+  border-color: #ed6c3d;
+}
