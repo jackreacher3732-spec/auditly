@@ -103,10 +103,13 @@ function FindingCard({ check }: { check: AuditCheck }) {
         <span className="finding-priority">{check.status === "pass" || check.status === "info" ? config.label : check.severity}</span>
         <span className={`finding-chevron ${open ? "rotated" : ""}`}>⌄</span>
       </button>
-      {open && <div className="finding-details">
-        <div className="finding-detail-block"><span className="finding-detail-label">WHAT WE FOUND</span><p>{check.details}</p>{check.evidence && <span className="finding-evidence">{check.evidence}</span>}</div>
-        <div className="finding-recommendation"><span className="finding-detail-label">WHAT TO DO NEXT</span><p>{check.recommendation}</p></div>
-        <div className="affected-urls"><span className="finding-detail-label">AFFECTED URLS · {affectedUrls.length}</span><div className="affected-url-list">{visibleUrls.map(url => <a href={url} target="_blank" rel="noreferrer" key={url} title={url}>{url}<ExternalLink size={12} /></a>)}</div>{affectedUrls.length > 8 && <button className="affected-urls-toggle" type="button" onClick={() => setShowAllUrls(value => !value)}>{showAllUrls ? "Show fewer URLs" : `Show all ${affectedUrls.length} URLs`}</button>}</div>
+      {open && <div className="finding-details finding-details-premium">
+        <div className="finding-detail-topline"><span className="finding-detail-kicker">AUDIT INSIGHT</span><span className="finding-detail-count">{check.affectedPages} affected page{check.affectedPages === 1 ? "" : "s"}</span></div>
+        <div className="finding-insight-grid">
+          <div className="finding-insight-panel"><span className="finding-insight-icon"><FileSearch size={16} /></span><div><span className="finding-detail-label">WHAT WE FOUND</span><p>{check.details}</p>{check.evidence && <span className="finding-evidence">{check.evidence}</span>}</div></div>
+          <div className="finding-insight-panel finding-insight-action"><span className="finding-insight-icon"><CheckCircle2 size={16} /></span><div><span className="finding-detail-label">RECOMMENDED ACTION</span><p>{check.recommendation}</p></div></div>
+        </div>
+        <div className="affected-urls finding-url-panel"><div className="finding-url-heading"><span className="finding-detail-label">AFFECTED URLS <span className="finding-url-count">{affectedUrls.length}</span></span><span className="finding-url-hint">Open in new tab <ArrowUpRight size={12} /></span></div><div className="affected-url-list">{visibleUrls.map(url => <a href={url} target="_blank" rel="noopener noreferrer" key={url} title={url}><span>{url}</span><ExternalLink size={13} /></a>)}</div>{affectedUrls.length > 8 && <button className="affected-urls-toggle" type="button" onClick={() => setShowAllUrls(value => !value)}>{showAllUrls ? "Show fewer URLs" : `Show all ${affectedUrls.length} URLs`}</button>}</div>
       </div>}
     </article>
   );
