@@ -19,6 +19,12 @@ import {
   RefreshCw,
   ShieldAlert,
   Smartphone,
+  EyeOff,
+  Wrench,
+  TrendingDown,
+  Link2,
+  ChevronDown,
+  Copy,
   XCircle,
 } from "lucide-react";
 import { Link } from "wouter";
@@ -91,25 +97,48 @@ const statusConfig: Record<AuditStatus, { label: string; icon: typeof CheckCircl
 function FindingCard({ check }: { check: AuditCheck }) {
   const [open, setOpen] = useState(false);
   const [showAllUrls, setShowAllUrls] = useState(false);
+  const [urlsOpen, setUrlsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const config = statusConfig[check.status];
   const Icon = config.icon;
-  const affectedUrls = check.affectedUrls?.length ? check.affectedUrls : [check.exampleUrl];
+  const affectedUrls = (check.affectedUrls?.length ? check.affectedUrls : [check.exampleUrl]).filter(Boolean);
   const visibleUrls = showAllUrls ? affectedUrls : affectedUrls.slice(0, 8);
+  const isNoindex = /indexability|noindex/i.test(check.title);
+  const impact = isNoindex
+    ? "Pages intentionally marked noindex are excluded from search results. Review whether this is expected."
+    : null;
+  const copyUrls = async () => {
+    try {
+      await navigator.clipboard.writeText(affectedUrls.join("\n"));
+      setCopied(true);
+    } catch { setCopied(false); }
+  };
   return (
-    <article className={`finding-card ${config.className} ${open ? "finding-open" : ""}`}>
+    <article className={`finding-card signature-finding ${config.className} ${open ? "finding-open" : ""}`}>
       <button type="button" className="finding-summary" onClick={() => setOpen(value => !value)} aria-expanded={open}>
-        <span className="finding-state-icon"><Icon size={18} /></span>
+        <span className="finding-state-icon"><Icon size={19} /></span>
         <span className="finding-main"><strong>{check.title}</strong><small>{check.category} · {check.affectedPages} page{check.affectedPages === 1 ? "" : "s"}</small></span>
         <span className="finding-priority">{check.status === "pass" || check.status === "info" ? config.label : check.severity}</span>
-        <span className={`finding-chevron ${open ? "rotated" : ""}`}>⌄</span>
+        <span className={`finding-chevron ${open ? "rotated" : ""}`}><ChevronDown size={19} /></span>
       </button>
-      {open && <div className="finding-details finding-details-premium">
-        <div className="finding-detail-topline"><span className="finding-detail-kicker">AUDIT INSIGHT</span><span className="finding-detail-count">{check.affectedPages} affected page{check.affectedPages === 1 ? "" : "s"}</span></div>
-        <div className="finding-insight-grid">
-          <div className="finding-insight-panel"><span className="finding-insight-icon"><FileSearch size={16} /></span><div><span className="finding-detail-label">WHAT WE FOUND</span><p>{check.details}</p>{check.evidence && <span className="finding-evidence">{check.evidence}</span>}</div></div>
-          <div className="finding-insight-panel finding-insight-action"><span className="finding-insight-icon"><CheckCircle2 size={16} /></span><div><span className="finding-detail-label">RECOMMENDED ACTION</span><p>{check.recommendation}</p></div></div>
+      {open && <div className="signature-details">
+        <div className="signature-illustration" aria-hidden="true">
+          <div className="signature-orbit signature-orbit-one" /><div className="signature-orbit signature-orbit-two" />
+          <div className="signature-browser"><div className="signature-browser-bar"><i/><i/><i/></div><div className="signature-browser-line"/><div className="signature-browser-line short"/><div className="signature-browser-line"/></div>
+          <div className="signature-illustration-badge">{isNoindex ? <EyeOff size={37} /> : <Icon size={37} />}</div>
         </div>
-        <div className="affected-urls finding-url-panel"><div className="finding-url-heading"><span className="finding-detail-label">AFFECTED URLS <span className="finding-url-count">{affectedUrls.length}</span></span><span className="finding-url-hint">Open in new tab <ArrowUpRight size={12} /></span></div><div className="affected-url-list">{visibleUrls.map(url => <a href={url} target="_blank" rel="noopener noreferrer" key={url} title={url}><span>{url}</span><ExternalLink size={13} /></a>)}</div>{affectedUrls.length > 8 && <button className="affected-urls-toggle" type="button" onClick={() => setShowAllUrls(value => !value)}>{showAllUrls ? "Show fewer URLs" : `Show all ${affectedUrls.length} URLs`}</button>}</div>
+        <div className="signature-story">
+          <div className="signature-step"><span className="signature-step-icon"><FileSearch size={19}/></span><div><strong>Finding</strong><p>{check.details}</p>{check.evidence && <small className="signature-evidence">{check.evidence}</small>}</div></div>
+          <div className="signature-step"><span className="signature-step-icon"><Wrench size={19}/></span><div><strong>Recommended fix</strong><p>{check.recommendation}</p></div></div>
+          {impact && <div className="signature-step"><span className="signature-step-icon"><TrendingDown size={19}/></span><div><strong>Potential impact</strong><p>{impact}</p></div></div>}
+        </div>
+        <div className="signature-urls">
+          <div className="signature-urls-heading"><span className="signature-urls-icon"><Link2 size={17}/></span><strong>Affected URLs</strong><span className="signature-url-count">{affectedUrls.length}</span></div>
+          {affectedUrls.length > 0 && <div className="signature-url-preview">{affectedUrls.slice(0, 2).map(url => <a key={url} href={url} target="_blank" rel="noopener noreferrer" title={url}><span>{url}</span><ExternalLink size={14}/></a>)}</div>}
+          {affectedUrls.length > 2 && <button type="button" className="signature-view-all" onClick={() => setUrlsOpen(value => !value)} aria-expanded={urlsOpen}>{urlsOpen ? "Hide URLs" : `View all ${affectedUrls.length}`} <ArrowUpRight size={15}/></button>}
+          {urlsOpen && affectedUrls.length > 2 && <div className="signature-extra-urls">{affectedUrls.slice(2, showAllUrls ? undefined : 10).map(url => <a href={url} target="_blank" rel="noopener noreferrer" key={url}><span>{url}</span><ExternalLink size={13}/></a>)}{affectedUrls.length > 10 && <button type="button" onClick={() => setShowAllUrls(v => !v)}>{showAllUrls ? "Show fewer" : `Show remaining ${affectedUrls.length - 10}`}</button>}</div>}
+          {affectedUrls.length > 0 && <button type="button" className="signature-copy" onClick={copyUrls}><Copy size={14}/>{copied ? "Copied" : "Copy all"}</button>}
+        </div>
       </div>}
     </article>
   );
