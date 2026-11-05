@@ -725,3 +725,48 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
  .report-page .finding-url-hint { display: none; }
 }
 @media print { .report-page .finding-details-premium { background: #fff; } .report-page .finding-url-panel .affected-url-list { max-height: none; overflow: visible; } }
+
+/* Auditly Signature UI v3 — isolated findings styling */
+.report-page .signature-finding {overflow:hidden;border:1px solid #ece7e2;border-radius:18px;background:#fff;box-shadow:0 4px 20px rgba(61,42,30,.035);transition:border-color .22s,box-shadow .22s}
+.report-page .signature-finding:hover {border-color:#f5c7b3;box-shadow:0 8px 28px rgba(87,54,37,.075)}
+.report-page .signature-finding.finding-open {border-color:#f5a47e;box-shadow:0 10px 32px rgba(237,108,61,.10)}
+.report-page .signature-finding .finding-summary {min-height:68px;padding:12px 20px;gap:14px}
+.report-page .signature-finding .finding-state-icon {width:42px;height:42px;flex-basis:42px;border-radius:13px}
+.report-page .signature-finding .finding-main strong {font-size:15px;color:#222d2d;letter-spacing:-.02em}
+.report-page .signature-finding .finding-priority {border-radius:999px}
+.report-page .signature-finding .finding-chevron {display:flex;align-items:center;justify-content:center;transform:none;transition:transform .2s}
+.report-page .signature-finding .finding-chevron.rotated {transform:rotate(180deg)}
+.report-page .signature-details {display:grid;grid-template-columns:minmax(170px,.29fr) minmax(0,.71fr);gap:14px 22px;padding:18px 22px 17px;border-top:1px solid #f1eae5;background:radial-gradient(ellipse at 0 55%,rgba(255,232,217,.36),transparent 45%),#fff}
+.report-page .signature-illustration {position:relative;display:grid;place-items:center;min-height:196px;overflow:hidden;isolation:isolate}
+.report-page .signature-orbit {position:absolute;border-radius:50%;background:#fff1e9;z-index:-1}
+.report-page .signature-orbit-one {width:190px;height:190px;left:-32px;bottom:-88px}
+.report-page .signature-orbit-two {width:120px;height:120px;right:2px;top:3px;background:#fff8f3}
+.report-page .signature-browser {width:144px;height:112px;padding:13px;border:1px solid #ffd6c2;border-top:22px solid #ed6c3d;border-radius:12px;background:#fff;box-shadow:0 15px 30px rgba(224,95,44,.16);transform:rotate(-11deg)}
+.report-page .signature-browser-bar {position:absolute;top:-15px;left:10px;display:flex;gap:5px}
+.report-page .signature-browser-bar i {width:5px;height:5px;border-radius:50%;background:#fff}
+.report-page .signature-browser-line {height:8px;margin:10px 0;border-radius:5px;background:#ffe9dd}
+.report-page .signature-browser-line.short {width:65%}
+.report-page .signature-illustration-badge {position:absolute;display:grid;place-items:center;right:8px;bottom:23px;width:73px;height:73px;border:1px solid #ffd4be;border-radius:18px;background:#fff8f3;color:#ed6c3d;box-shadow:0 12px 24px rgba(224,95,44,.15);transform:rotate(7deg)}
+.report-page .signature-story {display:flex;flex-direction:column;justify-content:center;gap:15px;min-width:0;padding:5px 0}
+.report-page .signature-step {display:flex;align-items:flex-start;gap:13px;min-width:0}
+.report-page .signature-step-icon {display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:#fff0e8;color:#ed6c3d}
+.report-page .signature-step>div {min-width:0}
+.report-page .signature-step strong {display:block;color:#242d2d;font-size:13px;font-weight:800;letter-spacing:-.02em}
+.report-page .signature-step p {margin:4px 0 0;color:#51605b;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.report-page .signature-evidence {display:block;margin-top:5px;color:#87928c;font-size:11px;overflow-wrap:anywhere}
+.report-page .signature-urls {grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-top:13px;border-top:1px solid #f0e9e4}
+.report-page .signature-urls-heading {display:flex;align-items:center;gap:8px;white-space:nowrap}
+.report-page .signature-urls-icon {display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#fff0e8;color:#ed6c3d}
+.report-page .signature-urls-heading strong {font-size:12px;color:#26312e}
+.report-page .signature-url-count {display:grid;place-items:center;min-width:21px;height:21px;padding:0 5px;border-radius:50%;background:#ed6c3d;color:white;font-size:10px;font-weight:800}
+.report-page .signature-url-preview {display:flex;flex:1;gap:8px;min-width:0}
+.report-page .signature-url-preview a,.report-page .signature-extra-urls a {display:flex;align-items:center;gap:7px;min-width:0;flex:1;padding:9px 10px;border:1px solid #f0e7e0;border-radius:999px;background:#fffdfb;color:#d9572b;font-size:10px;box-shadow:0 2px 5px rgba(40,32,25,.03)}
+.report-page .signature-url-preview a span,.report-page .signature-extra-urls a span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.report-page .signature-url-preview a svg,.report-page .signature-extra-urls a svg {flex:0 0 auto}
+.report-page .signature-view-all,.report-page .signature-copy,.report-page .signature-extra-urls button {display:inline-flex;align-items:center;gap:5px;border:0;background:transparent;color:#d9572b;font-size:11px;font-weight:750;cursor:pointer;white-space:nowrap}
+.report-page .signature-view-all {padding:9px 12px;border-radius:999px;background:#ed6c3d;color:#fff}
+.report-page .signature-copy {color:#66736d}
+.report-page .signature-extra-urls {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;flex:1 0 100%}
+@media(max-width:750px){.report-page .signature-details {grid-template-columns:1fr;gap:8px;padding:14px}.report-page .signature-illustration {min-height:105px}.report-page .signature-browser {transform:scale(.65) rotate(-11deg)}.report-page .signature-illustration-badge {transform:scale(.7) rotate(7deg);right:calc(50% - 100px);bottom:0}.report-page .signature-story {gap:13px}.report-page .signature-urls {gap:9px}.report-page .signature-url-preview {flex:1 0 100%;flex-direction:column}.report-page .signature-extra-urls {grid-template-columns:1fr}.report-page .signature-finding .finding-summary {min-height:64px;padding:11px 12px;gap:9px}.report-page .signature-finding .finding-main strong {font-size:13px}}
+@media(prefers-reduced-motion:reduce){.report-page .signature-finding,.report-page .signature-finding .finding-chevron {transition:none}}
+@media print {.report-page .signature-finding {box-shadow:none!important}.report-page .signature-illustration {display:none}.report-page .signature-details {display:block}.report-page .signature-story {margin-bottom:12px}.report-page .signature-urls {display:block}.report-page .signature-url-preview {display:block}.report-page .signature-url-preview a {display:block;overflow-wrap:anywhere}.report-page .signature-copy,.report-page .signature-view-all {display:none}}
