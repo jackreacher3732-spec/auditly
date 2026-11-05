@@ -89,7 +89,7 @@ const statusConfig: Record<AuditStatus, { label: string; icon: typeof CheckCircl
 };
 
 function FindingCard({ check }: { check: AuditCheck }) {
-  const [open, setOpen] = useState(check.status === "fail" || check.status === "warning");
+  const [open, setOpen] = useState(false);
   const [showAllUrls, setShowAllUrls] = useState(false);
   const config = statusConfig[check.status];
   const Icon = config.icon;
@@ -99,7 +99,7 @@ function FindingCard({ check }: { check: AuditCheck }) {
     <article className={`finding-card ${config.className} ${open ? "finding-open" : ""}`}>
       <button type="button" className="finding-summary" onClick={() => setOpen(value => !value)} aria-expanded={open}>
         <span className="finding-state-icon"><Icon size={18} /></span>
-        <span className="finding-main"><strong>{check.title}</strong><small>{check.category} · {check.affectedPages} page{check.affectedPages === 1 ? "" : "s"}</small>{check.status !== "pass" && check.status !== "info" && <span className="finding-inline-evidence">{check.details}{check.evidence ? ` · ${check.evidence}` : ""}</span>}</span>
+        <span className="finding-main"><strong>{check.title}</strong><small>{check.category} · {check.affectedPages} page{check.affectedPages === 1 ? "" : "s"}</small></span>
         <span className="finding-priority">{check.status === "pass" || check.status === "info" ? config.label : check.severity}</span>
         <span className={`finding-chevron ${open ? "rotated" : ""}`}>⌄</span>
       </button>
