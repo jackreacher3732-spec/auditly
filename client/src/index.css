@@ -535,3 +535,264 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .device-speed-card { break-inside: avoid; box-shadow: none; }
   .device-speed-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* AUDITLY PREMIUM REPORT REDESIGN — scoped to the report only */
+.report-page { --audit-ink:#17263b; --audit-muted:#6b7b90; --audit-border:#e4eaf2; --audit-accent:#4f46e5; background:linear-gradient(180deg,#f2f5fc 0,#f8faff 400px,#f7f9fd 100%); color:var(--audit-ink); }
+.report-header {height:76px;background:rgba(255,255,255,.94);border-bottom:1px solid var(--audit-border);backdrop-filter:blur(16px)}
+.report-header-inner,.report-container {width:min(1320px,calc(100% - 64px))}
+.report-container {padding:36px 0 48px}
+.report-breadcrumb {font-size:12px;gap:12px}
+.report-title-row {margin:26px 0 28px;align-items:center}
+.report-title-row h1 {font-size:clamp(32px,3.4vw,48px);letter-spacing:-.055em;color:var(--audit-ink);font-weight:800}
+.report-title-row h1 span {color:var(--audit-accent);font-weight:800}
+.report-domain {font-size:13px;flex-wrap:wrap}
+.report-domain a {color:#4338ca}
+.report-page .section-kicker,.report-page .score-label {color:#7a86a0;font-size:10px;letter-spacing:.13em}
+.report-page .outline-button,.report-page .primary-button {min-height:42px;padding:0 16px;border-radius:10px;font-size:12px;font-weight:750}
+.report-page .primary-button {background:#4f46e5;color:#fff;box-shadow:0 5px 12px #4f46e51c}
+.report-page .primary-button:hover {background:#4338ca}
+.report-page .outline-button {border-color:#dbe3ef;color:#3c4c65}
+.report-page .outline-button:hover {border-color:#a5b4fc;color:#4338ca}
+.overview-grid {grid-template-columns:1.25fr .75fr;gap:18px}
+.report-page .score-panel,.report-page .issue-panel,.report-page .category-card,.report-page .device-speed-card {border:1px solid var(--audit-border);border-radius:18px;background:#fff;box-shadow:0 8px 30px rgba(33,51,90,.045)}
+.report-page .score-panel {min-height:240px;padding:30px 34px;background:radial-gradient(circle at 100% 0%,#e9e9ff 0,transparent 48%),linear-gradient(125deg,#fff,#f9faff)}
+.report-page .score-panel-copy>strong {font-size:28px;color:#23314a}
+.report-page .score-panel-copy>p {font-size:13px;max-width:320px}
+.report-page .score-meta {font-size:11px;flex-wrap:wrap}
+.report-page .issue-panel {padding:28px 30px}
+.report-page .issue-panel-heading h2 {font-size:19px;color:#23314a}
+.report-page .issue-count {font-size:26px;color:#4338ca}
+.report-page .issue-stat-list {gap:13px;margin:20px 0}
+.report-page .issue-stat-list>div,.report-page .issue-stat-list strong {font-size:12px}
+.report-page .text-button {font-size:12px;color:#4f46e5}
+.report-page .device-speed-section,.report-page .category-section,.report-page .findings-section,.report-page .crawl-section {margin-top:44px}
+.report-page .section-row-heading {margin-bottom:18px}
+.report-page .section-row-heading h2 {font-size:24px;font-weight:800;color:#202f49}
+.report-page .muted-small,.report-page .finding-total {font-size:11px}
+.report-page .device-speed-intro {font-size:12px;line-height:1.7}
+.report-page .device-speed-grid {gap:16px}
+.report-page .device-speed-card {padding:22px}
+.report-page .device-speed-title h3 {font-size:17px}
+.report-page .device-speed-score strong {font-size:25px}
+.report-page .device-test-url {font-size:11px;margin:16px 0 12px}
+.report-page .device-metric-grid {gap:8px}
+.report-page .device-metric {padding:11px 9px;border-radius:9px;background:#f7f9fd;border-color:#edf1f7}
+.report-page .device-metric span {font-size:10px;min-height:28px}
+.report-page .device-metric strong {font-size:14px}
+.report-page .field-data-heading strong,.report-page .speed-opportunities>strong {font-size:12px}
+.report-page .field-data-heading small,.report-page .field-source,.report-page .field-overall-category,.report-page .device-muted,.report-page .speed-opportunities ul {font-size:10px}
+.report-page .category-grid {gap:15px}
+.report-page .category-card {padding:20px;transition:transform .2s,box-shadow .2s}
+.report-page .category-card:hover {transform:translateY(-3px);box-shadow:0 14px 32px #24375d12}
+.report-page .category-card h3 {font-size:13px;margin-top:18px}
+.report-page .category-score-row {height:51px}
+.report-page .category-score-row>strong {font-size:32px}
+.report-page .category-issues {font-size:11px}
+.report-page .category-progress {height:7px;margin-top:14px}
+.report-page .findings-heading p {font-size:12px;margin-top:7px}
+.report-page .finding-toolbar {gap:16px;margin:0 0 16px}
+.report-page .filter-tabs {padding:5px;gap:5px;border-radius:12px;border-color:#dfe6f2}
+.report-page .filter-tabs button {font-size:12px;min-height:36px;padding:0 14px;border-radius:8px}
+.report-page .filter-tabs button.active {background:#edeaff;color:#4338ca}
+.report-page .filter-tabs button span {font-size:10px}
+.report-page .finding-toolbar select {height:46px;max-width:260px;font-size:12px;border-radius:10px;border-color:#dfe6f2}
+.report-page .findings-list {gap:11px}
+.report-page .finding-card {border:1px solid var(--audit-border);border-radius:14px;box-shadow:0 4px 16px #24375d08;transition:border-color .2s,box-shadow .2s}
+.report-page .finding-card:hover {border-color:#c9d3e5;box-shadow:0 8px 24px #24375d0d}
+.report-page .finding-open {border-color:#c7c7fc}
+.report-page .finding-summary {min-height:76px;padding:17px 20px;gap:14px}
+.report-page .finding-state-icon {flex-basis:38px;width:38px;height:38px}
+.report-page .finding-main {gap:6px}
+.report-page .finding-main strong {font-size:15px;color:#23314a;font-weight:750;line-height:1.35}
+.report-page .finding-main small {font-size:11px;color:#8190a6}
+.report-page .finding-priority {padding:6px 11px;border-radius:999px;font-size:11px;font-weight:800;background:#f3f5f9;color:#6d7890;white-space:nowrap}
+.report-page .status-fail .finding-priority {background:#fff0ef;color:#b42318}
+.report-page .status-warning .finding-priority {background:#fff6e6;color:#9a6700}
+.report-page .finding-chevron {font-size:23px}
+.report-page .finding-details {padding:20px 22px 24px 72px;gap:22px;border-top:1px solid #edf0f7;background:#fbfcff}
+.report-page .finding-detail-label {font-size:10px;color:#7584a0}
+.report-page .finding-detail-block p,.report-page .finding-recommendation p {font-size:13px;line-height:1.7;color:#52647c}
+.report-page .finding-evidence {font-size:11px;line-height:1.6}
+.report-page .finding-recommendation {border-left:3px solid #818cf8;padding-left:16px}
+.report-page .affected-urls {padding-top:10px}
+.report-page .affected-url-list {gap:9px 18px}
+.report-page .affected-url-list a {font-size:11px;color:#4f46e5}
+.report-page .affected-urls-toggle {font-size:11px;color:#4f46e5;border-color:#a5b4fc}
+.report-page .crawl-insights {gap:10px}
+.report-page .crawl-insights>div {padding:17px 14px;border:1px solid var(--audit-border);border-radius:12px;box-shadow:0 3px 12px #24375d07}
+.report-page .crawl-insights strong {font-size:25px;color:#273650}
+.report-page .crawl-insights span {font-size:11px}
+.report-page .pages-table-wrap {border-radius:14px;border-color:var(--audit-border);box-shadow:0 8px 26px #24375d08}
+.report-page .pages-table th {padding:16px 15px;font-size:10px;background:#f4f6fc;color:#75839b}
+.report-page .pages-table td {padding:16px 15px;font-size:12px}
+.report-page .page-title-link span {font-size:12px;color:#273650}
+.report-page .page-title-link small {font-size:10px}
+.report-page .page-details-button {font-size:11px;color:#4f46e5}
+.report-page .crawl-coverage {font-size:11px;padding:15px;border-radius:11px}
+.report-page .export-note {border-radius:12px;padding:17px}
+.report-page .export-note>span,.report-page .export-note button {font-size:12px}
+@media(max-width:950px){.report-page .overview-grid {grid-template-columns:1fr}.report-page .device-speed-grid {grid-template-columns:1fr}}
+@media(max-width:700px){.report-page .report-container,.report-page .report-header-inner {width:calc(100% - 32px)}.report-page .report-title-row h1 {font-size:32px}.report-page .score-panel {padding:22px}.report-page .issue-panel {padding:22px}.report-page .category-grid {grid-template-columns:repeat(2,minmax(0,1fr))}.report-page .category-card {padding:15px}.report-page .finding-summary {padding:14px;gap:10px;min-height:70px}.report-page .finding-main strong {font-size:13px}.report-page .finding-details {padding:18px;grid-template-columns:1fr}.report-page .finding-priority {font-size:10px;padding:5px 8px}.report-page .finding-toolbar select {max-width:none}.report-page .section-row-heading h2 {font-size:21px}.report-page .crawl-insights {grid-template-columns:repeat(2,minmax(0,1fr))}.report-page .device-metric-grid {grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media print {.report-page {background:#fff!important}.report-page .finding-card,.report-page .score-panel,.report-page .issue-panel,.report-page .category-card {box-shadow:none!important}.report-page .finding-details {background:#fff}.report-page .finding-summary {min-height:48px}}
+
+/* Auditly — Original White & Orange Branding */
+.report-page {
+  background: #fbfcfa;
+}
+
+.report-title-row h1 span {
+  color: #ed6c3d;
+}
+
+.report-domain a,
+.report-breadcrumb a:hover {
+  color: #d9572b;
+}
+
+.report-page .primary-button {
+  background: #ed6c3d;
+  color: #ffffff;
+}
+
+.report-page .primary-button:hover {
+  background: #d9572b;
+}
+
+.report-page .filter-tabs button.active {
+  background: #fff0e9;
+  color: #d9572b;
+}
+
+.report-page .filter-tabs button.active span {
+  color: #d9572b;
+}
+
+.report-page .text-button,
+.report-page .page-details-button,
+.report-page .affected-url-list a,
+.report-page .affected-urls-toggle {
+  color: #d9572b;
+}
+
+.report-page .finding-card:focus-within {
+  border-color: #ed6c3d;
+}
+
+
+/* Auditly Premium Findings — compact white/orange insight cards */
+.report-page .findings-list { gap: 10px; }
+.report-page .finding-card { position: relative; border: 1px solid #e7e9e4; border-radius: 15px; background: #fff; box-shadow: 0 3px 14px rgba(31,43,43,.035); transition: border-color .2s, box-shadow .2s, transform .2s; }
+.report-page .finding-card:hover { border-color: #f0c4b1; box-shadow: 0 9px 28px rgba(57,45,35,.075); }
+.report-page .finding-open { border-color: #ed6c3d; box-shadow: 0 12px 34px rgba(237,108,61,.085); }
+.report-page .finding-summary { min-height: 75px; padding: 15px 20px; gap: 15px; }
+.report-page .finding-state-icon { width: 40px; height: 40px; flex-basis: 40px; }
+.report-page .finding-main strong { color: #24312e; font-size: 15px; }
+.report-page .finding-main small { color: #84918a; font-size: 11px; }
+.report-page .finding-chevron { color: #89958e; }
+.report-page .finding-details-premium { display: block; padding: 18px 20px 20px; border-top: 1px solid #f0eee9; background: linear-gradient(180deg,#fffdfb 0%,#fff 65%); }
+.report-page .finding-detail-topline { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
+.report-page .finding-detail-kicker { color: #d9572b; font-size: 10px; font-weight: 800; letter-spacing: .13em; }
+.report-page .finding-detail-count { color: #8b958e; font-size: 11px; }
+.report-page .finding-insight-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.report-page .finding-insight-panel { display: flex; align-items: flex-start; gap: 12px; min-width: 0; padding: 17px; border: 1px solid #eeeae4; border-radius: 12px; background: #fff; }
+.report-page .finding-insight-action { border-color: #f4ddce; background: #fff7f2; }
+.report-page .finding-insight-icon { display: grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; border-radius: 9px; background: #f6f4ef; color: #69756e; }
+.report-page .finding-insight-action .finding-insight-icon { background: #ffe8dc; color: #d9572b; }
+.report-page .finding-insight-panel > div { min-width: 0; }
+.report-page .finding-insight-panel .finding-detail-label { color: #7d8982; font-size: 10px; letter-spacing: .1em; }
+.report-page .finding-insight-action .finding-detail-label { color: #c35c36; }
+.report-page .finding-insight-panel p { margin: 8px 0 0; color: #45554d; font-size: 12px; line-height: 1.65; overflow-wrap: anywhere; }
+.report-page .finding-insight-panel .finding-evidence { margin-top: 7px; font-size: 11px; }
+.report-page .finding-url-panel { margin-top: 12px; padding: 15px 16px; border: 1px solid #eeeae4; border-radius: 12px; background: #fff; }
+.report-page .finding-url-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.report-page .finding-url-heading .finding-detail-label { color: #68776e; }
+.report-page .finding-url-count { display: inline-grid; place-items: center; min-width: 22px; height: 20px; padding: 0 5px; border-radius: 7px; background: #fff0e9; color: #d9572b; font-size: 10px; letter-spacing: 0; }
+.report-page .finding-url-hint { display: inline-flex; align-items: center; gap: 5px; color: #9ba49d; font-size: 10px; white-space: nowrap; }
+.report-page .finding-url-panel .affected-url-list { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; margin-top: 11px; max-height: 172px; overflow-y: auto; scrollbar-color: #e8b39e transparent; }
+.report-page .finding-url-panel .affected-url-list a { min-width: 0; padding: 9px 10px; border: 1px solid #f1eee9; border-radius: 8px; background: #fcfcfa; color: #c85c35; font-size: 11px; transition: background .2s, border-color .2s; }
+.report-page .finding-url-panel .affected-url-list a:hover { background: #fff3ed; border-color: #f0c5b3; }
+.report-page .finding-url-panel .affected-url-list a span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.report-page .finding-url-panel .affected-url-list a svg { margin-left: auto; }
+.report-page .finding-url-panel .affected-urls-toggle { margin-top: 10px; color: #d9572b; }
+@media(max-width:700px) {
+ .report-page .finding-details-premium { padding: 14px; }
+ .report-page .finding-insight-grid { grid-template-columns: 1fr; gap: 9px; }
+ .report-page .finding-insight-panel { padding: 13px; }
+ .report-page .finding-url-panel { padding: 13px; }
+ .report-page .finding-url-panel .affected-url-list { grid-template-columns: 1fr; }
+ .report-page .finding-summary { padding: 13px; gap: 10px; }
+ .report-page .finding-main strong { font-size: 13px; }
+ .report-page .finding-url-hint { display: none; }
+}
+@media print { .report-page .finding-details-premium { background: #fff; } .report-page .finding-url-panel .affected-url-list { max-height: none; overflow: visible; } }
+
+/* Auditly Signature UI v3 — isolated findings styling */
+.report-page .signature-finding {overflow:hidden;border:1px solid #ece7e2;border-radius:18px;background:#fff;box-shadow:0 4px 20px rgba(61,42,30,.035);transition:border-color .22s,box-shadow .22s}
+.report-page .signature-finding:hover {border-color:#f5c7b3;box-shadow:0 8px 28px rgba(87,54,37,.075)}
+.report-page .signature-finding.finding-open {border-color:#f5a47e;box-shadow:0 10px 32px rgba(237,108,61,.10)}
+.report-page .signature-finding .finding-summary {min-height:68px;padding:12px 20px;gap:14px}
+.report-page .signature-finding .finding-state-icon {width:42px;height:42px;flex-basis:42px;border-radius:13px}
+.report-page .signature-finding .finding-main strong {font-size:15px;color:#222d2d;letter-spacing:-.02em}
+.report-page .signature-finding .finding-priority {border-radius:999px}
+.report-page .signature-finding .finding-chevron {display:flex;align-items:center;justify-content:center;transform:none;transition:transform .2s}
+.report-page .signature-finding .finding-chevron.rotated {transform:rotate(180deg)}
+.report-page .signature-details {display:grid;grid-template-columns:minmax(170px,.29fr) minmax(0,.71fr);gap:14px 22px;padding:18px 22px 17px;border-top:1px solid #f1eae5;background:radial-gradient(ellipse at 0 55%,rgba(255,232,217,.36),transparent 45%),#fff}
+.report-page .signature-illustration {position:relative;display:grid;place-items:center;min-height:196px;overflow:hidden;isolation:isolate}
+.report-page .signature-orbit {position:absolute;border-radius:50%;background:#fff1e9;z-index:-1}
+.report-page .signature-orbit-one {width:190px;height:190px;left:-32px;bottom:-88px}
+.report-page .signature-orbit-two {width:120px;height:120px;right:2px;top:3px;background:#fff8f3}
+.report-page .signature-browser {width:144px;height:112px;padding:13px;border:1px solid #ffd6c2;border-top:22px solid #ed6c3d;border-radius:12px;background:#fff;box-shadow:0 15px 30px rgba(224,95,44,.16);transform:rotate(-11deg)}
+.report-page .signature-browser-bar {position:absolute;top:-15px;left:10px;display:flex;gap:5px}
+.report-page .signature-browser-bar i {width:5px;height:5px;border-radius:50%;background:#fff}
+.report-page .signature-browser-line {height:8px;margin:10px 0;border-radius:5px;background:#ffe9dd}
+.report-page .signature-browser-line.short {width:65%}
+.report-page .signature-illustration-badge {position:absolute;display:grid;place-items:center;right:8px;bottom:23px;width:73px;height:73px;border:1px solid #ffd4be;border-radius:18px;background:#fff8f3;color:#ed6c3d;box-shadow:0 12px 24px rgba(224,95,44,.15);transform:rotate(7deg)}
+.report-page .signature-story {display:flex;flex-direction:column;justify-content:center;gap:15px;min-width:0;padding:5px 0}
+.report-page .signature-step {display:flex;align-items:flex-start;gap:13px;min-width:0}
+.report-page .signature-step-icon {display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border-radius:50%;background:#fff0e8;color:#ed6c3d}
+.report-page .signature-step>div {min-width:0}
+.report-page .signature-step strong {display:block;color:#242d2d;font-size:13px;font-weight:800;letter-spacing:-.02em}
+.report-page .signature-step p {margin:4px 0 0;color:#51605b;font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.report-page .signature-evidence {display:block;margin-top:5px;color:#87928c;font-size:11px;overflow-wrap:anywhere}
+.report-page .signature-urls {grid-column:1/-1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-top:13px;border-top:1px solid #f0e9e4}
+.report-page .signature-urls-heading {display:flex;align-items:center;gap:8px;white-space:nowrap}
+.report-page .signature-urls-icon {display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#fff0e8;color:#ed6c3d}
+.report-page .signature-urls-heading strong {font-size:12px;color:#26312e}
+.report-page .signature-url-count {display:grid;place-items:center;min-width:21px;height:21px;padding:0 5px;border-radius:50%;background:#ed6c3d;color:white;font-size:10px;font-weight:800}
+.report-page .signature-url-preview {display:flex;flex:1;gap:8px;min-width:0}
+.report-page .signature-url-preview a,.report-page .signature-extra-urls a {display:flex;align-items:center;gap:7px;min-width:0;flex:1;padding:9px 10px;border:1px solid #f0e7e0;border-radius:999px;background:#fffdfb;color:#d9572b;font-size:10px;box-shadow:0 2px 5px rgba(40,32,25,.03)}
+.report-page .signature-url-preview a span,.report-page .signature-extra-urls a span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.report-page .signature-url-preview a svg,.report-page .signature-extra-urls a svg {flex:0 0 auto}
+.report-page .signature-view-all,.report-page .signature-copy,.report-page .signature-extra-urls button {display:inline-flex;align-items:center;gap:5px;border:0;background:transparent;color:#d9572b;font-size:11px;font-weight:750;cursor:pointer;white-space:nowrap}
+.report-page .signature-view-all {padding:9px 12px;border-radius:999px;background:#ed6c3d;color:#fff}
+.report-page .signature-copy {color:#66736d}
+.report-page .signature-extra-urls {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;flex:1 0 100%}
+@media(max-width:750px){.report-page .signature-details {grid-template-columns:1fr;gap:8px;padding:14px}.report-page .signature-illustration {min-height:105px}.report-page .signature-browser {transform:scale(.65) rotate(-11deg)}.report-page .signature-illustration-badge {transform:scale(.7) rotate(7deg);right:calc(50% - 100px);bottom:0}.report-page .signature-story {gap:13px}.report-page .signature-urls {gap:9px}.report-page .signature-url-preview {flex:1 0 100%;flex-direction:column}.report-page .signature-extra-urls {grid-template-columns:1fr}.report-page .signature-finding .finding-summary {min-height:64px;padding:11px 12px;gap:9px}.report-page .signature-finding .finding-main strong {font-size:13px}}
+@media(prefers-reduced-motion:reduce){.report-page .signature-finding,.report-page .signature-finding .finding-chevron {transition:none}}
+@media print {.report-page .signature-finding {box-shadow:none!important}.report-page .signature-illustration {display:none}.report-page .signature-details {display:block}.report-page .signature-story {margin-bottom:12px}.report-page .signature-urls {display:block}.report-page .signature-url-preview {display:block}.report-page .signature-url-preview a {display:block;overflow-wrap:anywhere}.report-page .signature-copy,.report-page .signature-view-all {display:none}}
+
+
+/* Auditly Signature UI v4 — page-checks drawer */
+.audit-drawer-root{position:fixed;inset:0;z-index:9999;display:flex;justify-content:flex-end}
+.audit-drawer-backdrop{position:absolute;inset:0;width:100%;border:0;background:rgba(18,31,31,.43);backdrop-filter:blur(3px);cursor:pointer}
+.audit-drawer{position:relative;display:flex;flex-direction:column;width:min(720px,94vw);height:100%;background:#fffdfa;box-shadow:-20px 0 65px rgba(28,39,36,.16);animation:audit-drawer-in .26s cubic-bezier(.2,.8,.2,1);overflow:hidden}
+@keyframes audit-drawer-in{from{transform:translateX(40px);opacity:.6}to{transform:translateX(0);opacity:1}}
+.audit-drawer-topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 24px;border-bottom:1px solid #f0e9e4;background:#fff}
+.audit-drawer-brand{display:flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.13em;font-weight:800;color:#263331}
+.audit-drawer-brand-dot{width:9px;height:9px;border-radius:50%;background:#ed6c3d;box-shadow:0 0 0 5px #fff0e9}
+.audit-drawer-count{letter-spacing:0;font-size:11px;font-weight:600;color:#bf5937;background:#fff0e9;padding:6px 9px;border-radius:30px}
+.audit-drawer-close{width:38px;height:38px;display:grid;place-items:center;border:1px solid #eee6df;border-radius:12px;background:#fff;color:#4c5a56;cursor:pointer}
+.audit-drawer-close:hover{color:#d9572b;background:#fff5ee}
+.audit-drawer-scroll{overflow-y:auto;overscroll-behavior:contain;flex:1;padding:22px 24px 40px}
+.audit-drawer .page-audit-details{margin:0;padding:0;border:0;background:transparent}
+.audit-drawer .page-audit-heading{display:block;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid #f0e9e4}
+.audit-drawer .page-audit-heading h3{font-size:20px;line-height:1.3;color:#23332e;margin:9px 0}
+.audit-drawer .page-audit-heading a{font-size:12px;max-width:100%;color:#d9572b}
+.audit-drawer .page-audit-heading>span{display:inline-block;margin-top:12px;font-size:11px;color:#77857e}
+.audit-drawer .page-audit-list{gap:9px}
+.audit-drawer .finding-card{border-radius:13px!important;box-shadow:0 2px 12px #1e30270a!important}
+.audit-drawer .finding-summary{min-height:66px!important;padding:12px 14px!important}
+.audit-drawer .finding-details{padding:14px!important}
+@media(max-width:640px){.audit-drawer{width:100vw}.audit-drawer-topbar{padding:14px 16px}.audit-drawer-scroll{padding:16px 14px 30px}.audit-drawer .page-audit-heading h3{font-size:18px}}
+@media(prefers-reduced-motion:reduce){.audit-drawer{animation:none}}
+@media print{.audit-drawer-root{display:none!important}}

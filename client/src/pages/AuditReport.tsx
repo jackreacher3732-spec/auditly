@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowDownToLine,
   ArrowLeft,
@@ -19,7 +19,14 @@ import {
   RefreshCw,
   ShieldAlert,
   Smartphone,
+  EyeOff,
+  Wrench,
+  TrendingDown,
+  Link2,
+  ChevronDown,
+  Copy,
   XCircle,
+  X,
 } from "lucide-react";
 import { Link } from "wouter";
 import Brand from "@/components/Brand";
@@ -89,24 +96,50 @@ const statusConfig: Record<AuditStatus, { label: string; icon: typeof CheckCircl
 };
 
 function FindingCard({ check }: { check: AuditCheck }) {
-  const [open, setOpen] = useState(check.status === "fail" || check.status === "warning");
+  const [open, setOpen] = useState(false);
   const [showAllUrls, setShowAllUrls] = useState(false);
+  const [urlsOpen, setUrlsOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const config = statusConfig[check.status];
   const Icon = config.icon;
-  const affectedUrls = check.affectedUrls?.length ? check.affectedUrls : [check.exampleUrl];
+  const affectedUrls = (check.affectedUrls?.length ? check.affectedUrls : [check.exampleUrl]).filter(Boolean);
   const visibleUrls = showAllUrls ? affectedUrls : affectedUrls.slice(0, 8);
+  const isNoindex = /indexability|noindex/i.test(check.title);
+  const impact = isNoindex
+    ? "Pages intentionally marked noindex are excluded from search results. Review whether this is expected."
+    : null;
+  const copyUrls = async () => {
+    try {
+      await navigator.clipboard.writeText(affectedUrls.join("\n"));
+      setCopied(true);
+    } catch { setCopied(false); }
+  };
   return (
-    <article className={`finding-card ${config.className} ${open ? "finding-open" : ""}`}>
+    <article className={`finding-card signature-finding ${config.className} ${open ? "finding-open" : ""}`}>
       <button type="button" className="finding-summary" onClick={() => setOpen(value => !value)} aria-expanded={open}>
-        <span className="finding-state-icon"><Icon size={18} /></span>
-        <span className="finding-main"><strong>{check.title}</strong><small>{check.category} · {check.affectedPages} page{check.affectedPages === 1 ? "" : "s"}</small>{check.status !== "pass" && check.status !== "info" && <span className="finding-inline-evidence">{check.details}{check.evidence ? ` · ${check.evidence}` : ""}</span>}</span>
+        <span className="finding-state-icon"><Icon size={19} /></span>
+        <span className="finding-main"><strong>{check.title}</strong><small>{check.category} · {check.affectedPages} page{check.affectedPages === 1 ? "" : "s"}</small></span>
         <span className="finding-priority">{check.status === "pass" || check.status === "info" ? config.label : check.severity}</span>
-        <span className={`finding-chevron ${open ? "rotated" : ""}`}>⌄</span>
+        <span className={`finding-chevron ${open ? "rotated" : ""}`}><ChevronDown size={19} /></span>
       </button>
-      {open && <div className="finding-details">
-        <div className="finding-detail-block"><span className="finding-detail-label">WHAT WE FOUND</span><p>{check.details}</p>{check.evidence && <span className="finding-evidence">{check.evidence}</span>}</div>
-        <div className="finding-recommendation"><span className="finding-detail-label">WHAT TO DO NEXT</span><p>{check.recommendation}</p></div>
-        <div className="affected-urls"><span className="finding-detail-label">AFFECTED URLS · {affectedUrls.length}</span><div className="affected-url-list">{visibleUrls.map(url => <a href={url} target="_blank" rel="noreferrer" key={url} title={url}>{url}<ExternalLink size={12} /></a>)}</div>{affectedUrls.length > 8 && <button className="affected-urls-toggle" type="button" onClick={() => setShowAllUrls(value => !value)}>{showAllUrls ? "Show fewer URLs" : `Show all ${affectedUrls.length} URLs`}</button>}</div>
+      {open && <div className="signature-details">
+        <div className="signature-illustration" aria-hidden="true">
+          <div className="signature-orbit signature-orbit-one" /><div className="signature-orbit signature-orbit-two" />
+          <div className="signature-browser"><div className="signature-browser-bar"><i/><i/><i/></div><div className="signature-browser-line"/><div className="signature-browser-line short"/><div className="signature-browser-line"/></div>
+          <div className="signature-illustration-badge">{isNoindex ? <EyeOff size={37} /> : <Icon size={37} />}</div>
+        </div>
+        <div className="signature-story">
+          <div className="signature-step"><span className="signature-step-icon"><FileSearch size={19}/></span><div><strong>Finding</strong><p>{check.details}</p>{check.evidence && <small className="signature-evidence">{check.evidence}</small>}</div></div>
+          <div className="signature-step"><span className="signature-step-icon"><Wrench size={19}/></span><div><strong>Recommended fix</strong><p>{check.recommendation}</p></div></div>
+          {impact && <div className="signature-step"><span className="signature-step-icon"><TrendingDown size={19}/></span><div><strong>Potential impact</strong><p>{impact}</p></div></div>}
+        </div>
+        <div className="signature-urls">
+          <div className="signature-urls-heading"><span className="signature-urls-icon"><Link2 size={17}/></span><strong>Affected URLs</strong><span className="signature-url-count">{affectedUrls.length}</span></div>
+          {affectedUrls.length > 0 && <div className="signature-url-preview">{affectedUrls.slice(0, 2).map(url => <a key={url} href={url} target="_blank" rel="noopener noreferrer" title={url}><span>{url}</span><ExternalLink size={14}/></a>)}</div>}
+          {affectedUrls.length > 2 && <button type="button" className="signature-view-all" onClick={() => setUrlsOpen(value => !value)} aria-expanded={urlsOpen}>{urlsOpen ? "Hide URLs" : `View all ${affectedUrls.length}`} <ArrowUpRight size={15}/></button>}
+          {urlsOpen && affectedUrls.length > 2 && <div className="signature-extra-urls">{affectedUrls.slice(2, showAllUrls ? undefined : 10).map(url => <a href={url} target="_blank" rel="noopener noreferrer" key={url}><span>{url}</span><ExternalLink size={13}/></a>)}{affectedUrls.length > 10 && <button type="button" onClick={() => setShowAllUrls(v => !v)}>{showAllUrls ? "Show fewer" : `Show remaining ${affectedUrls.length - 10}`}</button>}</div>}
+          {affectedUrls.length > 0 && <button type="button" className="signature-copy" onClick={copyUrls}><Copy size={14}/>{copied ? "Copied" : "Copy all"}</button>}
+        </div>
       </div>}
     </article>
   );
@@ -162,6 +195,20 @@ export default function AuditReport() {
   const [category, setCategory] = useState<AuditCategory | "All categories">("All categories");
   const [selectedPageUrl, setSelectedPageUrl] = useState<string | null>(null);
   const audit = trpc.audit.run.useMutation();
+
+  useEffect(() => {
+    if (!selectedPageUrl) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedPageUrl(null);
+    };
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [selectedPageUrl]);
 
   const checks = useMemo(() => {
     if (!report) return [];
@@ -250,14 +297,25 @@ export default function AuditReport() {
         <section className="crawl-section">
           <div className="section-row-heading"><div><span className="section-kicker">CRAWL SUMMARY</span><h2>Pages in this checkup</h2></div><span className="crawl-count"><FileSearch size={14} /> {report.crawl.internalLinksFound} internal links found</span></div>
           <div className="crawl-insights"><div><strong>{report.crawl.maxDepth}</strong><span>max crawl depth</span></div><div><strong>{report.crawl.orphanPages}</strong><span>orphan pages</span></div><div><strong>{report.crawl.duplicateTitleGroups}</strong><span>duplicate title groups</span></div><div><strong>{report.crawl.duplicateMetaGroups}</strong><span>duplicate meta groups</span></div><div><strong>{report.crawl.sitemapOnlyUrls}</strong><span>sitemap URLs not crawled</span></div><div><strong>{report.crawl.crawledNotInSitemap}</strong><span>crawled pages not in sitemap</span></div></div>
-          <div className="pages-table-wrap"><table className="pages-table"><thead><tr><th>Page</th><th>HTTP</th><th>Score</th><th>Findings</th><th>Depth</th><th>Inbound</th><th>Response</th><th>Details</th></tr></thead><tbody>{report.pages.map(page => <tr key={page.url}><td><a href={page.url} target="_blank" rel="noreferrer" className="page-title-link"><span>{page.title}</span><small>{page.url}</small></a></td><td><span className={`http-pill ${page.statusCode < 400 ? "http-ok" : "http-bad"}`}>{page.statusCode}</span></td><td><strong style={{ color: scoreColor(page.score) }}>{page.score}</strong></td><td>{page.issues} issue{page.issues === 1 ? "" : "s"}{page.orphan ? <span className="orphan-pill">orphan</span> : null}</td><td>{page.crawlDepth}</td><td>{page.inboundInternalLinks}</td><td>{page.loadMs.toLocaleString()} ms</td><td><button className="page-details-button" onClick={() => setSelectedPageUrl(selectedPageUrl === page.url ? null : page.url)}>{selectedPageUrl === page.url ? "Hide" : "View checks"}</button></td></tr>)}</tbody></table></div>
-          {selectedPage && <PageAuditDetails page={selectedPage} />}
+          <div className="pages-table-wrap"><table className="pages-table"><thead><tr><th>Page</th><th>HTTP</th><th>Score</th><th>Findings</th><th>Depth</th><th>Inbound</th><th>Response</th><th>Details</th></tr></thead><tbody>{report.pages.map(page => <tr key={page.url}><td><a href={page.url} target="_blank" rel="noreferrer" className="page-title-link"><span>{page.title}</span><small>{page.url}</small></a></td><td><span className={`http-pill ${page.statusCode < 400 ? "http-ok" : "http-bad"}`}>{page.statusCode}</span></td><td><strong style={{ color: scoreColor(page.score) }}>{page.score}</strong></td><td>{page.issues} issue{page.issues === 1 ? "" : "s"}{page.orphan ? <span className="orphan-pill">orphan</span> : null}</td><td>{page.crawlDepth}</td><td>{page.inboundInternalLinks}</td><td>{page.loadMs.toLocaleString()} ms</td><td><button className="page-details-button" onClick={() => setSelectedPageUrl(page.url)} aria-label={`View checks for ${page.title}`}>View checks</button></td></tr>)}</tbody></table></div>
           <div className={`crawl-coverage ${report.crawl.complete ? "coverage-complete" : "coverage-capped"}`}><Info size={14} /><span>{report.crawl.complete ? `Complete discoverable crawl finished: ${report.summary.pagesScanned} pages were scanned.` : `The crawl reached its safety ceiling after ${report.summary.pagesScanned} pages; ${report.crawl.pagesSkipped} discovered URL${report.crawl.pagesSkipped === 1 ? " was" : "s were"} not scanned.`} {report.crawl.blockedByRobots ? `${report.crawl.blockedByRobots} URL${report.crawl.blockedByRobots === 1 ? " was" : "s were"} blocked by robots.txt.` : ""} {report.metrics.coreWebVitals.note}</span></div>
           <div className="export-note print-hide"><span><CheckCircle2 size={16} /> Want a shareable copy?</span><button onClick={() => window.print()}>Print or save as PDF <ArrowUpRight size={14} /></button></div>
         </section>
 
         <footer className="report-footer print-hide"><Brand /><span>Auditly reports what this scan could observe at the time it ran.</span><Link href="/">Run another website checkup <ArrowUpRight size={13} /></Link></footer>
       </main>
+      {selectedPage && <div className="audit-drawer-root print-hide">
+        <button type="button" className="audit-drawer-backdrop" onClick={() => setSelectedPageUrl(null)} aria-label="Close page checks" />
+        <aside className="audit-drawer" role="dialog" aria-modal="true" aria-label={`Checks for ${selectedPage.title}`}>
+          <div className="audit-drawer-topbar">
+            <div className="audit-drawer-brand"><span className="audit-drawer-brand-dot" /> PAGE AUDIT <span className="audit-drawer-count">{selectedPage.checks.length} checks</span></div>
+            <button type="button" className="audit-drawer-close" onClick={() => setSelectedPageUrl(null)} aria-label="Close details"><X size={19} /></button>
+          </div>
+          <div className="audit-drawer-scroll" key={selectedPage.url}>
+            <PageAuditDetails page={selectedPage} />
+          </div>
+        </aside>
+      </div>}
     </div>
   );
 }
